@@ -1,7 +1,20 @@
-import { Button } from "./HeaderCreateEvent.styled";
+import { useState } from "react";
 
-function HeaderCreateEvent() {
-    return <Button>+</Button>;
+import Form from "component/Form";
+import { Button, BackDrop } from "./HeaderCreateEvent.styled";
+
+export default function HeaderCreateEvent() {
+    const [dropdown, setDropdown] = useState(false);
+
+    function toggleDropdown() {
+        setDropdown(!dropdown);
+    }
+
+    return (
+        <>
+            <Button onClick={toggleDropdown}>+</Button>
+            <BackDrop onClick={toggleDropdown} dropdown={dropdown} />
+            {dropdown && <Form toggleDropdown={toggleDropdown} />}
+        </>
+    );
 }
-
-export default HeaderCreateEvent;

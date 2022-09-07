@@ -1,12 +1,15 @@
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import Cell from "component/Cell";
+import { getEvents } from "store/events/eventsSelectors";
 import { Container } from "./MonthPage.styled";
 
 const weekDays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
 export default function MonthPage() {
     const { year, month } = useParams();
+    const events = useSelector(getEvents);
     const date = new Date();
 
     const currentDay =
@@ -58,6 +61,12 @@ export default function MonthPage() {
                     ).getDay()
                 ],
             anotherMonth,
+            events: events.filter(
+                ({ data }) =>
+                    data.slice(0, 4) === year &&
+                    Number(data.slice(5, 7)).toString() === month &&
+                    Number(data.slice(8, 10)) === day
+            ),
         };
     }
 
@@ -84,13 +93,14 @@ export default function MonthPage() {
 
     return (
         <Container quantityCells={quantityCells}>
-            {cells.map(({ day, weekDay, anotherMonth }, index) => (
+            {cells.map(({ day, weekDay, anotherMonth, events }, index) => (
                 <Cell
                     key={index}
                     day={day}
                     weekDay={weekDay}
                     anotherMonth={anotherMonth}
                     currentDay={currentDay}
+                    events={events}
                 />
             ))}
         </Container>

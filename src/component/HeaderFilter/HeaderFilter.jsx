@@ -1,6 +1,6 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
-import { Container, DatePicker } from "./HeaderFilter.styled";
+import { Container, Border, InputMonth } from "./HeaderFilter.styled";
 
 const monthNames = [
     "January",
@@ -19,10 +19,18 @@ const monthNames = [
 
 export default function HeaderFilter() {
     const { year, month } = useParams();
+    const navigate = useNavigate();
     const date = new Date();
     const monthIndex = date.getMonth();
     const previousMonth = month ? month - 1 : monthIndex;
     const nextMonth = month ? Number(month) + 1 : monthIndex + 2;
+
+    const handleChange = (e) => {
+        e.preventDefault();
+        navigate(
+            `month/${e.target.value.slice(0, 4)}/${e.target.value.slice(5, 7)}`
+        );
+    };
 
     return (
         <>
@@ -52,7 +60,8 @@ export default function HeaderFilter() {
                     &gt;
                 </Link>
             </Container>
-            <DatePicker />
+            <InputMonth type="month" onChange={handleChange} />
+            <Border />
         </>
     );
 }

@@ -1,9 +1,5 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
-    width: 100%;
-`;
-
 export const Button = styled.div`
     width: 30px;
     height: 30px;
@@ -14,3 +10,12 @@ export const Button = styled.div`
     background-color: #47a4cb;
     cursor: pointer;
 `;
+
+export const BackDrop = styled.div`
+	position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+	visibility: ${({ dropdown }) => (dropdown ? "" : "hidden")};
+	}`;
