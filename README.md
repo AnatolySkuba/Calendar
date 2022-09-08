@@ -1,70 +1,53 @@
-# Getting Started with Create React App
+Додаток - Календар подій. Новий користувач додатку
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+1. Заходить на сторінку додатку та бачить сторінку, яка складається з:
 
-## Available Scripts
+-   Кнопка відкриття форми.
+-   Фільтр за датою. За замовчанням вибрано поточний місяць.
+-   Сітка календаря вибраного у фільтрі місяця. Складається із днів (ячеєк). Ячейка включає:
+    -   Номер дня місяця (1, 2, 3)
+    -   День тижня
+    -   Список подій
 
-In the project directory, you can run:
+![](1.jpeg)
 
-### `npm start`
+Ячейка яка відповідає поточному дню - візуально виділена.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Референс сторінки
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+![](2.jpeg)
 
-### `npm test`
+2. Фільтр за датою
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+-   кнопки “<” и “>” змінюють місяць циклічно
+-   кнопка календаря відкриває date picker c можливість вибрати рік та місяць
 
-### `npm run build`
+![](3.png)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3. Створення події
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+-   клік по кнопці створення подій
+-   відкриється незаповнена форма. Форма складається з 3 полів:
+    -   Title (required)
+    -   Description
+    -   Date (required)
+    -   Time
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+![](4.jpeg)
 
-### `npm run eject`
+-   Кнопка “Save” зберігає та закриває форму
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+4. Редагування/видалення подій
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+-   Клік події відкриває заповнену форму в режимі редагування. На формі є created at/ updated at
+-   кнопка “save” оновлює подію та закриває форму
+-   кнопка “save” оновлює подію та закриває форму
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+![](5.jpeg)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Вимоги:
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. Не використовуйте готові календарі.
+1. Додаток зберігає стан фільтрів після перезавантаження сторінки
+1. Додаток використовує localstorage як сховище даних. Передбачити заміну реалізації зберігання, наприклад REST API (не реалізовувати).
+1. Додаток може візуально відрізнятися від прикладених референсів
