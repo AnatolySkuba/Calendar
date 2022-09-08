@@ -13,7 +13,7 @@ export const Border = styled.div`
     right: 2px;
     width: 30px;
     height: 20px;
-    border: 2px solid lightgray;
+    border: 2px solid var(--main-color);
     border-radius: 3px;
     cursor: pointer;
     pointer-events: none;

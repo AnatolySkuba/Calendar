@@ -3,14 +3,15 @@ import { useSelector } from "react-redux";
 
 import Cell from "component/Cell";
 import { getEvents } from "store/events/eventsSelectors";
+import { WEEK_DAYS } from "constants";
 import { Container } from "./MonthPage.styled";
-
-const weekDays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
 export default function MonthPage() {
     const { year, month } = useParams();
     const events = useSelector(getEvents);
     const date = new Date();
+    const currentYear = year ? year : date.getFullYear();
+    const currentMonth = month ? month : date.getMonth() + 1;
 
     const currentDay =
         ((Number(year) === date.getFullYear() || !year) &&
@@ -22,7 +23,7 @@ export default function MonthPage() {
     const previousMonthDays =
         33 -
         new Date(
-            year ? year : date.getFullYear(),
+            currentYear,
             month ? month - 2 : date.getMonth(),
             33
         ).getDate();
@@ -30,13 +31,13 @@ export default function MonthPage() {
     const monthDays =
         33 -
         new Date(
-            year ? year : date.getFullYear(),
+            currentYear,
             month ? month - 1 : date.getMonth(),
             33
         ).getDate();
 
     const weekDayFirst = new Date(
-        year ? year : date.getFullYear(),
+        currentYear,
         month ? month - 1 : date.getMonth(),
         1
     ).getDay();
@@ -53,19 +54,20 @@ export default function MonthPage() {
         return {
             day,
             weekDay:
-                weekDays[
+                WEEK_DAYS[
                     new Date(
-                        year ? year : date.getFullYear(),
+                        currentYear,
                         month ? month - 1 + anotherMonth : date.getMonth(),
                         day
                     ).getDay()
                 ],
             anotherMonth,
             events: events.filter(
-                ({ data }) =>
-                    data.slice(0, 4) === year &&
-                    Number(data.slice(5, 7)).toString() === month &&
-                    Number(data.slice(8, 10)) === day
+                ({ date }) =>
+                    date.slice(0, 4) === currentYear.toString() &&
+                    Number(date.slice(5, 7)).toString() ===
+                        currentMonth.toString() &&
+                    Number(date.slice(8, 10)) === day
             ),
         };
     }

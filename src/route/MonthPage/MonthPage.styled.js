@@ -9,6 +9,6 @@ export const Container = styled.ul`
     );
     grid-gap: 1px;
     margin-top: 15px;
-    background: lightgray;
-    border: 1px solid lightgray;
+    background: var(--main-color);
+    border: 1px solid var(--main-color);
 `;

@@ -4,10 +4,10 @@ import { ReactComponent as svgDelete } from "style/icons/delete.svg";
 
 export const Container = styled.form`
     position: absolute;
-    top: ${({ component }) => (component === "Cell" ? "50%" : "150%")};
+    top: ${({ edit }) => (edit ? "50%" : "150%")};
     left: 50%;
-    transform: ${({ component }) =>
-        component === "Cell" ? "translate(-50%, -50%)" : "translate(-50%, 0)"};
+    transform: ${({ edit }) =>
+        edit ? "translate(-50%, -50%)" : "translate(-50%, 0)"};
     width: 400px;
     height: 600px;
     padding: 20px;
@@ -26,7 +26,7 @@ export const BoxData = styled.div`
     justify-content: space-between;
     align-items: flex-start;
     height: 250px;
-    border-bottom: 2px solid lightgray;
+    border-bottom: 2px solid var(--main-color);
 `;
 
 export const Header = styled.h1`
@@ -34,8 +34,13 @@ export const Header = styled.h1`
     font-weight: 500;
 `;
 
+export const Text = styled.p`
+    font-size: 12px;
+    color: var(--accent-color);
+`;
+
 export const IconClose = styled(svgClose)`
-    fill: gray;
+    fill: var(--accent-color);
     cursor: pointer;
 `;
 
@@ -44,7 +49,7 @@ export const Label = styled.label`
     flex-direction: column;
     margin: 16px 0 8px;
     font-size: 14px;
-    color: lightgray;
+    color: var(--main-color);
 `;
 
 export const LabelData = styled.label`
@@ -52,16 +57,16 @@ export const LabelData = styled.label`
     flex-direction: column;
     margin: 36px 0 8px;
     font-size: 14px;
-    color: lightgray;
+    color: var(--main-color);
 `;
 
 export const Input = styled.input`
     padding: 8px 0;
     border: none;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid var(--main-color);
 
     ::placeholder {
-        color: lightgray;
+        color: var(--main-color);
         font-size: 16px;
         font-weight: 500;
     }
@@ -72,7 +77,7 @@ export const InputDate = styled.input`
     padding-top: 4px;
     font-size: 16px;
     border: none;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid var(--main-color);
 `;
 
 export const InputTime = styled.input`
@@ -80,13 +85,13 @@ export const InputTime = styled.input`
     padding-top: 4px;
     font-size: 16px;
     border: none;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid var(--main-color);
 `;
 
 export const Textarea = styled.textarea`
     padding: 8px 0;
     border: none;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid var(--main-color);
 `;
 
 export const IconDelete = styled(svgDelete)`
@@ -99,11 +104,14 @@ export const IconDelete = styled(svgDelete)`
 
 export const ButtonSave = styled.button`
     margin: 20px;
+    margin-left: ${({ edit }) => (edit ? "" : "auto")};
     padding: 8px 10px;
     float: right;
-    color: gray;
-    background-color: lightgray;
-    border: 1px solid lightgray;
+    color: ${({ isTitle }) =>
+        isTitle ? "var(--main-color)" : "var(--accent-color)"};
+    background-color: ${({ isTitle }) =>
+        isTitle ? "black" : "var(--main-color)"};
+    border: 1px solid var(--main-color);
     border-radius: 5px;
     cursor: pointer;
 `;

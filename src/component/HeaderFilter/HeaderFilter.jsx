@@ -1,21 +1,7 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 
+import { MONTHS } from "constants";
 import { Container, Border, InputMonth } from "./HeaderFilter.styled";
-
-const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-];
 
 export default function HeaderFilter() {
     const { year, month } = useParams();
@@ -28,7 +14,9 @@ export default function HeaderFilter() {
     const handleChange = (e) => {
         e.preventDefault();
         navigate(
-            `month/${e.target.value.slice(0, 4)}/${e.target.value.slice(5, 7)}`
+            `month/${e.target.value.slice(0, 4)}/${Number(
+                e.target.value.slice(5, 7)
+            ).toString()}`
         );
     };
 
@@ -46,7 +34,7 @@ export default function HeaderFilter() {
                 >
                     &lt;
                 </Link>
-                {month ? monthNames[month - 1] : monthNames[monthIndex]}&nbsp;
+                {month ? MONTHS[month - 1] : MONTHS[monthIndex]}&nbsp;
                 {year ? year : date.getFullYear()}
                 <Link
                     to={`/Calendar/month/${
