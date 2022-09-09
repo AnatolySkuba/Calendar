@@ -1,7 +1,7 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 import { MONTHS } from "constants";
-import { Container, Border, InputMonth } from "./HeaderFilter.styled";
+import { Container, InputMonth } from "./HeaderFilter.styled";
 
 export default function HeaderFilter() {
     const { year, month } = useParams();
@@ -63,7 +63,6 @@ export default function HeaderFilter() {
                 </Link>
             </Container>
             <InputMonth type="month" onChange={handleChange} />
-            {/* <Border /> */}
         </>
     );
 }
