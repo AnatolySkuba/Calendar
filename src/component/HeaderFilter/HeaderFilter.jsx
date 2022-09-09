@@ -11,14 +11,14 @@ export default function HeaderFilter() {
     const previousMonth = month ? month - 1 : monthIndex;
     const nextMonth = month ? Number(month) + 1 : monthIndex + 2;
 
-    const handleChange = (e) => {
+    function handleChange(e) {
         e.preventDefault();
         navigate(
             `month/${e.target.value.slice(0, 4)}/${Number(
                 e.target.value.slice(5, 7)
             ).toString()}`
         );
-    };
+    }
 
     return (
         <>
