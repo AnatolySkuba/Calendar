@@ -20,13 +20,17 @@ export const Border = styled.div`
 `;
 
 export const InputMonth = styled.input`
-    top: 2px;
-    right: 8px;
-    position: absolute;
-    margin-left: 10px;
-    width: 45px;
-    border: none;
-    :focus-visible {
-        outline: none;
+    display: inline-block;
+    align-items: center;
+    color: currentColor;
+    text-decoration: none;
+    font-size: 32px;
+    ::after {
+        display: inline-block;
+        content: "";
+        width: 59px;
+        height: 35px;
+        background-size: contain;
+        background-color: url("style/icons/calendar.png");
     }
 `;
