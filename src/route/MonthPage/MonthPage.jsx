@@ -1,14 +1,19 @@
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Cell from "component/Cell";
-import { getEvents } from "store/events/eventsSelectors";
+import { changeStore } from "store/events/eventsSlice";
+import { getEvents, getStore } from "store/events/eventsSelectors";
+import { useGetEventsQuery } from "store/events/eventsApi"; // REST API
 import { WEEK_DAYS } from "constants";
-import { Container } from "./MonthPage.styled";
+import { Container, Box, ButtonLocal, ButtonAPI } from "./MonthPage.styled";
 
 export default function MonthPage() {
+    const dispatch = useDispatch();
+    const { data } = useGetEventsQuery(); // REST API
     const { year, month } = useParams();
     const events = useSelector(getEvents);
+    const store = useSelector(getStore);
     const date = new Date();
     const currentYear = year ? year : date.getFullYear();
     const currentMonth = month ? month : date.getMonth() + 1;
@@ -50,26 +55,52 @@ export default function MonthPage() {
 
     const cells = [];
 
+    function switchStore(newStore) {
+        newStore !== store && dispatch(changeStore(newStore));
+    }
+
     function cell(day, anotherMonth) {
-        return {
-            day,
-            weekDay:
-                WEEK_DAYS[
-                    new Date(
-                        currentYear,
-                        month ? month - 1 + anotherMonth : date.getMonth(),
-                        day
-                    ).getDay()
-                ],
-            anotherMonth,
-            events: events.filter(
-                ({ date }) =>
-                    date.slice(0, 4) === currentYear.toString() &&
-                    Number(date.slice(5, 7)).toString() ===
-                        currentMonth.toString() &&
-                    Number(date.slice(8, 10)) === day
-            ),
-        };
+        if (store === "Local") {
+            return {
+                day,
+                weekDay:
+                    WEEK_DAYS[
+                        new Date(
+                            currentYear,
+                            month ? month - 1 + anotherMonth : date.getMonth(),
+                            day
+                        ).getDay()
+                    ],
+                anotherMonth,
+                events: events.filter(
+                    ({ date }) =>
+                        date.slice(0, 4) === currentYear.toString() &&
+                        Number(date.slice(5, 7)).toString() ===
+                            currentMonth.toString() &&
+                        Number(date.slice(8, 10)) === day
+                ),
+            };
+        } else {
+            return {
+                day,
+                weekDay:
+                    WEEK_DAYS[
+                        new Date(
+                            currentYear,
+                            month ? month - 1 + anotherMonth : date.getMonth(),
+                            day
+                        ).getDay()
+                    ],
+                anotherMonth,
+                events: data?.data.filter(
+                    ({ date }) =>
+                        date.slice(0, 4) === currentYear.toString() &&
+                        Number(date.slice(5, 7)).toString() ===
+                            currentMonth.toString() &&
+                        Number(date.slice(8, 10)) === day
+                ),
+            };
+        }
     }
 
     for (let i = 1; i <= quantityCells; i += 1) {
@@ -94,17 +125,28 @@ export default function MonthPage() {
     }
 
     return (
-        <Container quantityCells={quantityCells}>
-            {cells.map(({ day, weekDay, anotherMonth, events }, index) => (
-                <Cell
-                    key={index}
-                    day={day}
-                    weekDay={weekDay}
-                    anotherMonth={anotherMonth}
-                    currentDay={currentDay}
-                    events={events}
-                />
-            ))}
-        </Container>
+        <>
+            <Container quantityCells={quantityCells}>
+                {cells.map(({ day, weekDay, anotherMonth, events }, index) => (
+                    <Cell
+                        key={index}
+                        day={day}
+                        weekDay={weekDay}
+                        anotherMonth={anotherMonth}
+                        currentDay={currentDay}
+                        events={events}
+                    />
+                ))}
+            </Container>
+
+            <Box>
+                <ButtonLocal onClick={() => switchStore("Local")} store={store}>
+                    LocalStorage
+                </ButtonLocal>
+                <ButtonAPI onClick={() => switchStore("API")} store={store}>
+                    REST API
+                </ButtonAPI>
+            </Box>
+        </>
     );
 }

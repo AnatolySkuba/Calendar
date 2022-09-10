@@ -18,3 +18,8 @@ export const Text = styled.p`
     font-size: 14px;
     font-weight: bold;
 `;
+
+export const List = styled.ul`
+    height: 95px;
+    overflow: auto;
+`;

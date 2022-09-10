@@ -10,6 +10,8 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { configureStore } from "@reduxjs/toolkit";
+
+import { eventsApi } from "./events/eventsApi"; // REST API
 import { eventsSlice } from "./events/eventsSlice";
 
 const eventsPersistConfig = {
@@ -21,6 +23,7 @@ const eventsReducer = persistReducer(eventsPersistConfig, eventsSlice.reducer);
 
 export const store = configureStore({
     reducer: {
+        [eventsApi.reducerPath]: eventsApi.reducer, // REST API
         events: eventsReducer,
     },
     middleware: (getDefaultMiddleware) => [
@@ -36,6 +39,7 @@ export const store = configureStore({
                 ],
             },
         }),
+        eventsApi.middleware, // REST API
     ],
 });
 

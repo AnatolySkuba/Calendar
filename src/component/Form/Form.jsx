@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getEvents } from "store/events/eventsSelectors";
+import {
+    useGetEventsQuery,
+    useAddEventMutation,
+    useUpdateEventMutation,
+    useDeleteEventMutation,
+} from "store/events/eventsApi"; // REST API
+import { getEvents, getStore } from "store/events/eventsSelectors";
 import { changeEvents } from "store/events/eventsSlice";
 import {
     Container,
@@ -23,46 +29,87 @@ import {
 export default function Form({ toggleDropdown, event, edit }) {
     const [isTitle, setIsTitle] = useState(edit ? " " : "");
     const events = useSelector(getEvents);
+    const store = useSelector(getStore);
     const dispatch = useDispatch();
+    const [addEventApi] = useAddEventMutation(); // REST API
+    const [updateEventApi] = useUpdateEventMutation(); // REST API
+    const [deleteEventApi] = useDeleteEventMutation(); // REST API
+    const { data } = useGetEventsQuery(); // REST API
 
     function handleSubmit(e) {
         e.preventDefault();
         toggleDropdown();
         const { title, description, date, time } = e.target;
         const newEvents = [...events];
-        edit
-            ? newEvents.forEach(
-                  (newEvent, index) =>
-                      JSON.stringify(newEvent) === JSON.stringify(event) &&
-                      newEvents.splice(index, 1, {
-                          title: title.value,
-                          description: description.value,
-                          date: date.value,
-                          time: time.value,
-                          currentDate: new Date().toLocaleString(),
-                          updated: true,
-                      })
-              )
-            : newEvents.push({
-                  title: title.value,
-                  description: description.value,
-                  date: date.value,
-                  time: time.value,
-                  currentDate: new Date().toLocaleString(),
-              });
-        dispatch(changeEvents(newEvents));
+        if (store === "Local") {
+            edit
+                ? newEvents.forEach(
+                      (newEvent, index) =>
+                          JSON.stringify(newEvent) === JSON.stringify(event) &&
+                          newEvents.splice(index, 1, {
+                              title: title.value,
+                              description: description.value,
+                              date: date.value,
+                              time: time.value,
+                              currentDate: new Date().toLocaleString(),
+                              updated: true,
+                          })
+                  )
+                : newEvents.push({
+                      title: title.value,
+                      description: description.value,
+                      date: date.value,
+                      time: time.value,
+                      currentDate: new Date().toLocaleString(),
+                  });
+            dispatch(changeEvents(newEvents));
+        } else {
+            edit
+                ? data?.data.forEach((newEvent) => {
+                      if (
+                          JSON.stringify(newEvent).slice(32) ===
+                          JSON.stringify(event).slice(32)
+                      ) {
+                          updateEventApi({
+                              _id: newEvent._id,
+                              title: title.value,
+                              description: description.value,
+                              date: date.value,
+                              time: time.value,
+                              currentDate: new Date().toLocaleString(),
+                              updated: true,
+                          });
+                      }
+                  })
+                : addEventApi({
+                      title: title.value,
+                      description: description.value,
+                      date: date.value,
+                      time: time.value,
+                      currentDate: new Date().toLocaleString(),
+                  });
+        }
     }
 
     function deleteEvent(e) {
         e.preventDefault();
         toggleDropdown();
         const newEvents = [...events];
-        newEvents.forEach(
-            (newEvent, index) =>
-                JSON.stringify(newEvent) === JSON.stringify(event) &&
-                newEvents.splice(index, 1)
-        );
-        dispatch(changeEvents(newEvents));
+        if (store === "Local") {
+            newEvents.forEach(
+                (newEvent, index) =>
+                    JSON.stringify(newEvent) === JSON.stringify(event) &&
+                    newEvents.splice(index, 1)
+            );
+            dispatch(changeEvents(newEvents));
+        } else {
+            data?.data.forEach(
+                (newEvent) =>
+                    JSON.stringify(newEvent).slice(32) ===
+                        JSON.stringify(event).slice(32) &&
+                    deleteEventApi(newEvent._id)
+            );
+        }
     }
 
     function correctDate(date) {

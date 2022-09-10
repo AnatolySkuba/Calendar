@@ -1,5 +1,5 @@
 import Event from "component/Event";
-import { Container, Box, Text } from "./Cell.styled";
+import { Container, Box, Text, List } from "./Cell.styled";
 
 export default function Cell({
     day,
@@ -16,11 +16,11 @@ export default function Cell({
                 <Text>{day}</Text>
                 <Text>{weekDay}</Text>
             </Box>
-            <ul>
-                {events.map((event, index) => (
+            <List>
+                {events?.map((event, index) => (
                     <Event key={index} event={event}></Event>
                 ))}
-            </ul>
+            </List>
         </Container>
     );
 }
