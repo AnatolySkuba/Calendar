@@ -8,17 +8,6 @@ export const Container = styled.li`
         anotherMonth === 0 ? "black" : "var(--main-color)"};
 `;
 
-export const Box = styled.div`
-    display: flex;
-    justify-content: space-between;
-    padding: 5px 0;
-`;
-
-export const Text = styled.p`
-    font-size: 14px;
-    font-weight: bold;
-`;
-
 export const List = styled.ul`
     height: 95px;
     overflow: auto;

@@ -1,5 +1,6 @@
+import CellDate from "component/CellDate";
 import Event from "component/Event";
-import { Container, Box, Text, List } from "./Cell.styled";
+import { Container, List } from "./Cell.styled";
 
 export default function Cell({
     day,
@@ -12,10 +13,7 @@ export default function Cell({
 
     return (
         <Container anotherMonth={anotherMonth} colorDay={colorDay}>
-            <Box>
-                <Text>{day}</Text>
-                <Text>{weekDay}</Text>
-            </Box>
+            <CellDate day={day} weekDay={weekDay} />
             <List>
                 {events?.map((event, index) => (
                     <Event key={index} event={event}></Event>

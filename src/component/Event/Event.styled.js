@@ -13,5 +13,6 @@ export const Title = styled.li`
     margin-top: 2px;
     font-size: 14px;
     background-color: var(--main-color);
+    color: black;
     cursor: pointer;
 `;

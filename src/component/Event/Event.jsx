@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, memo } from "react";
 
 import Form from "component/Form";
 import { BackDrop, Title } from "./Event.styled";
 
-export default function Event({ event }) {
+export default memo(function EventInner({ event }) {
     const [dropdown, setDropdown] = useState(false);
 
     function toggleDropdown() {
@@ -23,4 +23,4 @@ export default function Event({ event }) {
             )}
         </>
     );
-}
+});

@@ -24,7 +24,7 @@ export default function HeaderFilter() {
 
     let nextYear;
     if (year) {
-        if (year && nextMonth > 12) {
+        if (year && nextMonth > MONTHS.length) {
             nextYear = Number(year) + 1;
         } else {
             nextYear = year;
@@ -47,7 +47,7 @@ export default function HeaderFilter() {
             <Container>
                 <Link
                     to={`/Calendar/month/${previousYear}/${
-                        previousMonth < 1 ? 12 : previousMonth
+                        previousMonth < 1 ? MONTHS.length : previousMonth
                     }`}
                 >
                     &lt;
@@ -56,7 +56,7 @@ export default function HeaderFilter() {
                 {year ? year : date.getFullYear()}
                 <Link
                     to={`/Calendar/month/${nextYear}/${
-                        nextMonth > 12 ? 1 : nextMonth
+                        nextMonth > MONTHS.length ? 1 : nextMonth
                     }`}
                 >
                     &gt;

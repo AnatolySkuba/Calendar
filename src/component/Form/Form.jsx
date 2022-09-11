@@ -40,25 +40,29 @@ export default function Form({ toggleDropdown, event, edit }) {
         e.preventDefault();
         toggleDropdown();
         const { title, description, date, time } = e.target;
+        const year = date.value.slice(0, 4);
+        const month = date.value.slice(5, 7);
+        const day = date.value.slice(8, 10);
+
         const newEvents = [...events];
         if (store === "Local") {
             edit
-                ? newEvents.forEach(
-                      (newEvent, index) =>
-                          JSON.stringify(newEvent) === JSON.stringify(event) &&
+                ? newEvents.forEach((newEvent, index) => {
+                      if (JSON.stringify(newEvent) === JSON.stringify(event)) {
                           newEvents.splice(index, 1, {
                               title: title.value,
                               description: description.value,
-                              date: date.value,
+                              date: { year, month, day },
                               time: time.value,
                               currentDate: new Date().toLocaleString(),
                               updated: true,
-                          })
-                  )
+                          });
+                      }
+                  })
                 : newEvents.push({
                       title: title.value,
                       description: description.value,
-                      date: date.value,
+                      date: { year, month, day },
                       time: time.value,
                       currentDate: new Date().toLocaleString(),
                   });
@@ -74,7 +78,7 @@ export default function Form({ toggleDropdown, event, edit }) {
                               _id: newEvent._id,
                               title: title.value,
                               description: description.value,
-                              date: date.value,
+                              date: { year, month, day },
                               time: time.value,
                               currentDate: new Date().toLocaleString(),
                               updated: true,
@@ -84,7 +88,7 @@ export default function Form({ toggleDropdown, event, edit }) {
                 : addEventApi({
                       title: title.value,
                       description: description.value,
-                      date: date.value,
+                      date: { year, month, day },
                       time: time.value,
                       currentDate: new Date().toLocaleString(),
                   });
@@ -155,7 +159,7 @@ export default function Form({ toggleDropdown, event, edit }) {
                         name="date"
                         defaultValue={
                             edit
-                                ? event.date
+                                ? `${event.date.year}-${event.date.month}-${event.date.day}`
                                 : new Date().toLocaleDateString("en-CA")
                         }
                         required

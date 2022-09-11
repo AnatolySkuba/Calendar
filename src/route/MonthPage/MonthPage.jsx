@@ -48,10 +48,17 @@ export default function MonthPage() {
     ).getDay();
 
     const previousMonthFirstDay =
-        previousMonthDays - (weekDayFirst === 0 ? 7 : weekDayFirst) + 2;
+        previousMonthDays -
+        (weekDayFirst === 0 ? WEEK_DAYS.length : weekDayFirst) +
+        2;
 
     const quantityCells =
-        (weekDayFirst === 0 ? 7 : weekDayFirst) + monthDays > 36 ? 42 : 35;
+        Math.ceil(
+            ((weekDayFirst === 0 ? WEEK_DAYS.length : weekDayFirst) +
+                monthDays -
+                1) /
+                WEEK_DAYS.length
+        ) * WEEK_DAYS.length;
 
     const cells = [];
 
@@ -74,10 +81,10 @@ export default function MonthPage() {
                 anotherMonth,
                 events: events.filter(
                     ({ date }) =>
-                        date.slice(0, 4) === currentYear.toString() &&
-                        Number(date.slice(5, 7)).toString() ===
-                            currentMonth.toString() &&
-                        Number(date.slice(8, 10)) === day
+                        date.year === currentYear.toString() &&
+                        Number(date.month).toString() ===
+                            (Number(currentMonth) + anotherMonth).toString() &&
+                        Number(date.day) === day
                 ),
             };
         } else {
@@ -94,10 +101,10 @@ export default function MonthPage() {
                 anotherMonth,
                 events: data?.data.filter(
                     ({ date }) =>
-                        date.slice(0, 4) === currentYear.toString() &&
-                        Number(date.slice(5, 7)).toString() ===
-                            currentMonth.toString() &&
-                        Number(date.slice(8, 10)) === day
+                        date?.year === currentYear.toString() &&
+                        Number(date?.month).toString() ===
+                            (Number(currentMonth) + anotherMonth).toString() &&
+                        Number(date?.day) === day
                 ),
             };
         }
@@ -113,12 +120,15 @@ export default function MonthPage() {
             i + previousMonthFirstDay - 1 <= previousMonthDays
         ) {
             cells.push(cell(i + previousMonthFirstDay - 1, -1));
-        } else if (weekDayFirst === 0 && i <= monthDays + 6) {
-            cells.push(cell(i - 6, 0));
+        } else if (
+            weekDayFirst === 0 &&
+            i <= monthDays + WEEK_DAYS.length - 1
+        ) {
+            cells.push(cell(i - WEEK_DAYS.length - 1, 0));
         } else if (weekDayFirst !== 1 && i <= monthDays + weekDayFirst - 1) {
             cells.push(cell(i - weekDayFirst + 1, 0));
-        } else if (weekDayFirst === 0 && i > monthDays + 6) {
-            cells.push(cell(i - monthDays - 6, 1));
+        } else if (weekDayFirst === 0 && i > monthDays + WEEK_DAYS.length - 1) {
+            cells.push(cell(i - monthDays - WEEK_DAYS.length - 1, 1));
         } else if (i > monthDays) {
             cells.push(cell(i - monthDays - weekDayFirst + 1, 1));
         }
