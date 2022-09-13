@@ -25,42 +25,17 @@ export default function MonthPage() {
             ? date.getDate()
             : null;
 
-    const previousMonthDays =
-        33 -
-        new Date(
-            currentYear,
-            month ? month - 2 : date.getMonth(),
-            33
-        ).getDate();
-
-    const monthDays =
-        33 -
-        new Date(
-            currentYear,
-            month ? month - 1 : date.getMonth(),
-            33
-        ).getDate();
-
-    const previousMonthDays2222222 = new Date(
+    const previousMonthDays = new Date(
         currentYear,
         month ? month - 1 : date.getMonth(),
         0
     ).getDate();
 
-    const monthDays2222222 = new Date(
+    const monthDays = new Date(
         currentYear,
         month ? month : date.getMonth() + 1,
         0
     ).getDate();
-
-    console.log(
-        month,
-        date.getMonth() + 1,
-        previousMonthDays,
-        monthDays,
-        previousMonthDays2222222,
-        monthDays2222222
-    );
 
     const weekDayFirst = new Date(
         currentYear,
@@ -82,8 +57,6 @@ export default function MonthPage() {
         ) * WEEK_DAYS.length;
 
     const cells = [];
-
-    console.log(weekDayFirst, quantityCells);
 
     function switchStore(newStore) {
         newStore !== store && dispatch(changeStore(newStore));
