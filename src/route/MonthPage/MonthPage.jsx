@@ -25,17 +25,42 @@ export default function MonthPage() {
             ? date.getDate()
             : null;
 
-    const previousMonthDays = new Date(
+    const previousMonthDays =
+        33 -
+        new Date(
+            currentYear,
+            month ? month - 2 : date.getMonth(),
+            33
+        ).getDate();
+
+    const monthDays =
+        33 -
+        new Date(
+            currentYear,
+            month ? month - 1 : date.getMonth(),
+            33
+        ).getDate();
+
+    const previousMonthDays2222222 = new Date(
         currentYear,
         month ? month - 1 : date.getMonth(),
         0
     ).getDate();
 
-    const monthDays = new Date(
+    const monthDays2222222 = new Date(
         currentYear,
         month ? month : date.getMonth() + 1,
         0
     ).getDate();
+
+    console.log(
+        month,
+        date.getMonth() + 1,
+        previousMonthDays,
+        monthDays,
+        previousMonthDays2222222,
+        monthDays2222222
+    );
 
     const weekDayFirst = new Date(
         currentYear,
@@ -57,6 +82,8 @@ export default function MonthPage() {
         ) * WEEK_DAYS.length;
 
     const cells = [];
+
+    console.log(weekDayFirst, quantityCells);
 
     function switchStore(newStore) {
         newStore !== store && dispatch(changeStore(newStore));
@@ -116,15 +143,12 @@ export default function MonthPage() {
             i + previousMonthFirstDay - 1 <= previousMonthDays
         ) {
             cells.push(cell(i + previousMonthFirstDay - 1, -1));
-        } else if (
-            weekDayFirst === 0 &&
-            i <= monthDays + WEEK_DAYS.length - 1
-        ) {
-            cells.push(cell(i - WEEK_DAYS.length - 1, 0));
+        } else if (weekDayFirst === 0 && i <= monthDays + 6) {
+            cells.push(cell(i - 6, 0));
         } else if (weekDayFirst !== 1 && i <= monthDays + weekDayFirst - 1) {
             cells.push(cell(i - weekDayFirst + 1, 0));
-        } else if (weekDayFirst === 0 && i > monthDays + WEEK_DAYS.length - 1) {
-            cells.push(cell(i - monthDays - WEEK_DAYS.length - 1, 1));
+        } else if (weekDayFirst === 0 && i > monthDays + 6) {
+            cells.push(cell(i - monthDays - 6, 1));
         } else if (i > monthDays) {
             cells.push(cell(i - monthDays - weekDayFirst + 1, 1));
         }
