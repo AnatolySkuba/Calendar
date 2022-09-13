@@ -25,21 +25,17 @@ export default function MonthPage() {
             ? date.getDate()
             : null;
 
-    const previousMonthDays =
-        33 -
-        new Date(
-            currentYear,
-            month ? month - 2 : date.getMonth(),
-            33
-        ).getDate();
+    const previousMonthDays = new Date(
+        currentYear,
+        month ? month - 1 : date.getMonth(),
+        0
+    ).getDate();
 
-    const monthDays =
-        33 -
-        new Date(
-            currentYear,
-            month ? month - 1 : date.getMonth(),
-            33
-        ).getDate();
+    const monthDays = new Date(
+        currentYear,
+        month ? month : date.getMonth() + 1,
+        0
+    ).getDate();
 
     const weekDayFirst = new Date(
         currentYear,
