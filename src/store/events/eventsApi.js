@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const eventsApi = createApi({
     reducerPath: "eventsApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: "https://calendarrestapi.herokuapp.com/api/events",
+        baseUrl: "https://calendarrestapi.onrender.com/api/events",
     }),
 
     tagTypes: ["Events"],
